@@ -18,6 +18,7 @@ class DoctorsViewController: UIViewController {
 
     var viewModel: DoctorsViewModelProtocol?
     private let disposeBag = DisposeBag()
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,9 @@ class DoctorsViewController: UIViewController {
         self.setupBindings()
         self.setupTableView()
 
-        tableView.tableFooterView = UIView()
+        refreshControl.backgroundColor = .white
+        self.tableView.addSubview(refreshControl)
+        self.tableView.tableFooterView = UIView()
     }
 
     private func setupBindings() {
@@ -43,6 +46,14 @@ class DoctorsViewController: UIViewController {
                 .asObservable()
                 .bind(to: self.emptyDoctorsView.rx.isHidden)
                 .disposed(by: self.disposeBag)
+
+        self.viewModel?.isRefreshing.asObservable()
+                .bind(to: self.refreshControl.rx.isRefreshing)
+                .disposed(by: self.disposeBag)
+
+        self.refreshControl.rx.controlEvent(.valueChanged)
+                .bind(to: self.viewModel?.startRefreshing ?? PublishSubject())
+                .disposed(by: disposeBag)
 
         self.viewModel?.showError.subscribe(onNext: {
             errorMsg in

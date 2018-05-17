@@ -16,6 +16,7 @@ class MainViewController: UIViewController {
 
     private var viewModel: MainViewModelProtocol?
     private let disposeBag = DisposeBag()
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,10 @@ class MainViewController: UIViewController {
         self.setupBindings()
         self.setupTableView()
 
-        tableView.tableFooterView = UIView()
+        refreshControl.backgroundColor = .white
+        self.tableView.addSubview(refreshControl)
+
+        self.tableView.tableFooterView = UIView()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -38,6 +42,14 @@ class MainViewController: UIViewController {
                     s in
                     self.showErrorMsg(message: s)
                 }).disposed(by: self.disposeBag)
+
+        self.viewModel?.isRefreshing.asObservable()
+                .bind(to: self.refreshControl.rx.isRefreshing)
+                .disposed(by: self.disposeBag)
+
+        self.refreshControl.rx.controlEvent(.valueChanged)
+                .bind(to: self.viewModel?.startRefreshing ?? PublishSubject())
+                .disposed(by: self.disposeBag)
     }
 
     private func setupTableView() {
@@ -46,7 +58,7 @@ class MainViewController: UIViewController {
                     (row: Int, speciality: Speciality, cell: UITableViewCell) in
                     cell.textLabel?.text = speciality.name
                 }
-                .disposed(by: disposeBag)
+                .disposed(by: self.disposeBag)
 
         self.tableView.rx.modelSelected(Speciality.self)
                 .subscribe(onNext: {
