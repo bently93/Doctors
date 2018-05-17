@@ -66,7 +66,7 @@ class DoctorsViewController: UIViewController {
                 .bind(to: tableView.rx.items(cellIdentifier: "cell")) {
                     (row: Int, doctor: Doctor, cell: UITableViewCell) in
                     cell.textLabel?.text = doctor.name
-                    cell.detailTextLabel?.text = doctor.description
+                    cell.detailTextLabel?.text = doctor.descriptionInfo
                 }
                 .disposed(by: disposeBag)
     }

@@ -78,6 +78,7 @@ class RestApi: RestApiProtocol {
                                     if let jsonDoc = v as? NSDictionary {
                                         let doctor = Doctor()
                                         doctor.jsonToObject(json: jsonDoc)
+                                        doctor.specId = specId
                                         array.append(doctor)
                                     }
                                  }

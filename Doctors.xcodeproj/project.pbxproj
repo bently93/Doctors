@@ -10,6 +10,7 @@
 		115D3154DA5408D0033C98C3 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D3915E38320531B67D9B8 /* RestApi.swift */; };
 		115D329C7F4DF83A6E36892F /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D39FA7B9D5A626CE67BA5 /* MainViewModel.swift */; };
 		115D36DFD28F19506CF35406 /* DoctorsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D3E1770CDC193159D1CED /* DoctorsViewModel.swift */; };
+		115D3713E4F9E99FFDED4DCB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D382E23EDBC1C24848835 /* Extensions.swift */; };
 		115D396B3695FFFE689779F8 /* Speciality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D3FC6A6DA5ACA0859AA0C /* Speciality.swift */; };
 		115D3E85724CBC9DC79FAD35 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D3C6B43E054543723A892 /* Doctor.swift */; };
 		115D3EFFCAF978272A49F56E /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D3057D784418C438B46B4 /* BaseViewModel.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		115D3057D784418C438B46B4 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		115D382E23EDBC1C24848835 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		115D3915E38320531B67D9B8 /* RestApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
 		115D39FA7B9D5A626CE67BA5 /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		115D3C6B43E054543723A892 /* Doctor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				18D5F77020AD57350091B4EC /* AppDelegate.swift */,
 				115D3915E38320531B67D9B8 /* RestApi.swift */,
 				115D3057D784418C438B46B4 /* BaseViewModel.swift */,
+				115D382E23EDBC1C24848835 /* Extensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -515,12 +518,16 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Doctors/Pods-Doctors-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
@@ -545,6 +552,7 @@
 				115D36DFD28F19506CF35406 /* DoctorsViewModel.swift in Sources */,
 				115D3E85724CBC9DC79FAD35 /* Doctor.swift in Sources */,
 				115D3EFFCAF978272A49F56E /* BaseViewModel.swift in Sources */,
+				115D3713E4F9E99FFDED4DCB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,10 +729,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Doctors/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.Doctors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -740,10 +745,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Doctors/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.Doctors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -759,11 +761,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -780,11 +778,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -800,11 +794,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -820,11 +810,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

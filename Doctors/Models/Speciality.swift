@@ -4,12 +4,12 @@
 //
 
 import Foundation
+import RealmSwift
 
-class Speciality {
-    var id = 0
-    var name = ""
-    var alias = ""
-
+class Speciality: Object {
+    @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var alias = ""
 
     func jsonToObject(json: NSDictionary) {
         if let idStr = json["Id"] as? NSString {

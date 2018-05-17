@@ -5,6 +5,7 @@
 
 import Foundation
 import RxSwift
+import RealmSwift
 
 protocol DoctorsViewModelProtocol {
     var doctors: Variable<Array<Doctor>> { get }
@@ -32,6 +33,7 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
 
     private let restApi: RestApiProtocol
     private let speciality: Speciality
+    private let realm = try! Realm()
 
     init(speciality: Speciality, restApi: RestApiProtocol = RestApi()) {
         self.restApi = restApi
@@ -39,20 +41,31 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
 
         super.init()
 
-        self.getData(startPage: 0)
+        self.updateData()
 
         self.reloadData.subscribe { void in
-            self.getData(startPage: 0)
+            self.getDataFromServer(startPage: 0)
         }.disposed(by: self.disposeBag)
 
         self.startRefreshing.subscribe {
             void in
-            self.getData(startPage: 0)
+            self.getDataFromServer(startPage: 0)
             self.isRefreshing.value = true
         }
     }
 
-    private func getData(startPage: Int, count: Int = 0) {
+    private func updateData() {
+        let allDoctor = getAllDoctorDB(specId: self.speciality.id)
+        if allDoctor.isEmpty {
+            getDataFromServer()
+        } else {
+            self.doctors.value = allDoctor.toArray(ofType: Doctor.self)
+            self.isHiddenActivityIndicator.value = true
+            self.isHiddenTableView.value = false
+        }
+    }
+    
+    private func getDataFromServer(startPage: Int = 0, count: Int = 0) {
         restApi.getDoctors(startPage: startPage, count: count, specId: self.speciality.id)
                 .subscribe(onNext: {
                     array in
@@ -62,6 +75,7 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
                     self.doctors.value = array
                     self.isHiddenActivityIndicator.value = true
                     self.isRefreshing.value = false
+                    self.saveDoctors(array: array)
                 }, onError: {
                     (error: Error) in
                     let errorMsg = self.getErrorMsg(error: error)
@@ -71,4 +85,21 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
                 })
                 .disposed(by: self.disposeBag)
     }
+
+    private func saveDoctors(array: Array<Doctor>){
+        do{
+            try realm.write {
+                let all = getAllDoctorDB(specId: self.speciality.id)
+                realm.delete(all)
+                realm.add(array)
+            }
+        }
+        catch{
+        }
+    }
+
+    private func getAllDoctorDB(specId: Int)->Results<Doctor>{
+        return realm.objects(Doctor.self).filter("specId=%@", specId)
+    }
+
 }

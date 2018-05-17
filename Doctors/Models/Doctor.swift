@@ -4,15 +4,17 @@
 //
 
 import Foundation
+import RealmSwift
 
-class Doctor {
-    var id = 0
-    var name = ""
-    var description = ""
+class Doctor: Object {
+    @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var descriptionInfo = ""
+    @objc dynamic var specId = 0
 
     func jsonToObject(json: NSDictionary) {
         self.id = json["Id"] as? Int ?? 0
         self.name = json["Name"] as? String ?? ""
-        self.description = json["Description"] as? String ?? ""
+        self.descriptionInfo = json["Description"] as? String ?? ""
     }
 }

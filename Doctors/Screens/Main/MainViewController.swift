@@ -37,6 +37,10 @@ class MainViewController: UIViewController {
         self.viewModel?.isHiddenActivityIndicator.asObservable()
                 .bind(to: self.activityIndicator.rx.isHidden)
                 .disposed(by: self.disposeBag)
+        self.viewModel?.isHiddenTableView.asObservable()
+        .bind(to: self.tableView.rx.isHidden )
+        .disposed(by: self.disposeBag)
+
         self.viewModel?.showError
                 .subscribe(onNext: {
                     s in

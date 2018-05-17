@@ -8,6 +8,8 @@ target 'Doctors' do
   pod 'Alamofire'
   pod 'RxSwift'
   pod 'RxCocoa'
+
+  pod 'RealmSwift'
   # Pods for Doctors
 
   target 'DoctorsTests' do
