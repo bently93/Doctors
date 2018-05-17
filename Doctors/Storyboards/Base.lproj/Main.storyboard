@@ -50,7 +50,9 @@
                             <constraint firstItem="ZbU-LY-8PT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lMj-Lr-uao"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Специалисты" id="i8c-R1-38D"/>
+                    <navigationItem key="navigationItem" title="Специалисты" id="i8c-R1-38D">
+                        <barButtonItem key="backBarButtonItem" title=" " id="EYF-bu-nBv"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="ZbU-LY-8PT" id="Qus-SA-dSY"/>
                         <outlet property="tableView" destination="Bej-Ri-2tr" id="w74-4e-mfx"/>
@@ -61,7 +63,7 @@
             </objects>
             <point key="canvasLocation" x="1076" y="133.5832083958021"/>
         </scene>
-        <!--Doctors View Controller-->
+        <!--Доктора-->
         <scene sceneID="cJE-K7-xFA">
             <objects>
                 <viewController id="UuF-hK-SkI" customClass="DoctorsViewController" customModule="Doctors" customModuleProvider="target" sceneMemberID="viewController">
@@ -95,29 +97,40 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" textLabel="qcn-n4-Qja" detailTextLabel="w3i-Si-SxY" style="IBUITableViewCellStyleSubtitle" id="BoB-DW-kLt">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="58" id="BoB-DW-kLt" customClass="DoctorsTableViewCell" customModule="Doctors" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="58"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BoB-DW-kLt" id="dee-1H-CdH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qcn-n4-Qja">
-                                                    <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tcb-TI-tiQ">
+                                                    <rect key="frame" x="16" y="30.5" width="343" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w3i-Si-SxY">
-                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJM-uw-xdn">
+                                                    <rect key="frame" x="16" y="10" width="343" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="oJM-uw-xdn" secondAttribute="trailing" constant="16" id="5iV-Ft-eUs"/>
+                                                <constraint firstItem="Tcb-TI-tiQ" firstAttribute="leading" secondItem="oJM-uw-xdn" secondAttribute="leading" id="5u9-dk-sjk"/>
+                                                <constraint firstAttribute="bottom" secondItem="Tcb-TI-tiQ" secondAttribute="bottom" constant="10" id="6o9-AH-8YV"/>
+                                                <constraint firstItem="oJM-uw-xdn" firstAttribute="leading" secondItem="dee-1H-CdH" secondAttribute="leading" constant="16" id="WzE-Kl-ZCI"/>
+                                                <constraint firstItem="oJM-uw-xdn" firstAttribute="top" secondItem="dee-1H-CdH" secondAttribute="top" constant="10" id="bUg-cR-CwB"/>
+                                                <constraint firstItem="Tcb-TI-tiQ" firstAttribute="trailing" secondItem="oJM-uw-xdn" secondAttribute="trailing" id="iVw-Z3-2MP"/>
+                                                <constraint firstItem="Tcb-TI-tiQ" firstAttribute="top" secondItem="oJM-uw-xdn" secondAttribute="bottom" id="wm2-Pw-Pi5"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="decriptionLabel" destination="Tcb-TI-tiQ" id="d3J-Pp-pTK"/>
+                                            <outlet property="nameLabel" destination="oJM-uw-xdn" id="afg-Cm-mQx"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -139,6 +152,7 @@
                             <constraint firstItem="Ebt-4a-fcc" firstAttribute="centerX" secondItem="ilZ-Ld-zBa" secondAttribute="centerX" id="svO-22-twm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Доктора" id="Jw2-ft-xKK"/>
                     <connections>
                         <outlet property="activityIndicator" destination="Ebt-4a-fcc" id="wyr-rv-UtL"/>
                         <outlet property="emptyDoctorsView" destination="XEg-EL-1IU" id="VBh-0f-Cfg"/>

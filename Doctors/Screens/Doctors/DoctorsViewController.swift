@@ -63,10 +63,10 @@ class DoctorsViewController: UIViewController {
 
     private func setupTableView() {
         self.viewModel?.doctors.asObservable()
-                .bind(to: tableView.rx.items(cellIdentifier: "cell")) {
-                    (row: Int, doctor: Doctor, cell: UITableViewCell) in
-                    cell.textLabel?.text = doctor.name
-                    cell.detailTextLabel?.text = doctor.descriptionInfo
+                .bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: DoctorsTableViewCell.self )) {
+                    (row: Int, doctor: Doctor, cell: DoctorsTableViewCell) in
+                    cell.nameLabel.text = doctor.name
+                    cell.decriptionLabel.text = doctor.descriptionInfo
                 }
                 .disposed(by: disposeBag)
     }

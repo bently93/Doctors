@@ -23,6 +23,7 @@
 		18D5F78620AD57360091B4EC /* DoctorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F78520AD57360091B4EC /* DoctorsTests.swift */; };
 		18D5F79120AD57370091B4EC /* DoctorsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F79020AD57370091B4EC /* DoctorsUITests.swift */; };
 		18D5F7A720AD6E420091B4EC /* DoctorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */; };
+		18D5F7AA20AD9BE90091B4EC /* DoctorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */; };
 		52B459E031596F6098447F32 /* Pods_Doctors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96D06A5514D97A825D5E739 /* Pods_Doctors.framework */; };
 		C2AF10F3B1091ECAA61DFDA3 /* Pods_DoctorsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1874778AA37FAC89A8685D74 /* Pods_DoctorsUITests.framework */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		18D5F79020AD57370091B4EC /* DoctorsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsUITests.swift; sourceTree = "<group>"; };
 		18D5F79220AD57370091B4EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsViewController.swift; sourceTree = "<group>"; };
+		18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewCell.swift; sourceTree = "<group>"; };
 		4E4AF0E4F31CD69E1BF00EED /* Pods-DoctorsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoctorsTests/Pods-DoctorsTests.release.xcconfig"; sourceTree = "<group>"; };
 		77061FB9377325FA80F4052D /* Pods-DoctorsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoctorsUITests/Pods-DoctorsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A5A4F1156D1DEA5F55A25634 /* Pods-DoctorsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoctorsUITests/Pods-DoctorsUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */,
 				115D3E1770CDC193159D1CED /* DoctorsViewModel.swift */,
+				18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */,
 			);
 			path = Doctors;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				115D36DFD28F19506CF35406 /* DoctorsViewModel.swift in Sources */,
 				115D3E85724CBC9DC79FAD35 /* Doctor.swift in Sources */,
 				115D3EFFCAF978272A49F56E /* BaseViewModel.swift in Sources */,
+				18D5F7AA20AD9BE90091B4EC /* DoctorsTableViewCell.swift in Sources */,
 				115D3713E4F9E99FFDED4DCB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,7 +733,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Doctors/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.Doctors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -745,7 +752,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Doctors/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.Doctors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -761,7 +771,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -778,7 +792,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -794,7 +812,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -810,7 +832,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = DoctorsUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bently-93.DoctorsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
