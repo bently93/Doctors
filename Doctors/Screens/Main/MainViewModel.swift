@@ -12,19 +12,27 @@ protocol MainViewModelProtocol {
 
 
     var showError: PublishSubject<String> { get }
+    var reloadData: PublishSubject<Void> { get }
+
 }
 
-class MainViewModel: MainViewModelProtocol {
+class MainViewModel: BaseViewModel, MainViewModelProtocol  {
     private(set) var specialityArray: Variable<Array<Speciality>> = Variable(Array<Speciality>())
     private(set) var isHiddenActivityIndicator: Variable<Bool> = Variable(false)
     private(set) var showError: PublishSubject<String> = PublishSubject()
+    private(set) var reloadData: PublishSubject<Void> = PublishSubject()
 
     private let restApi: RestApiProtocol
 
     init(restApi: RestApiProtocol = RestApi()) {
         self.restApi = restApi
 
+        super.init()
+
         self.getData()
+        self.reloadData.subscribe { void in
+            self.getData()
+        }.disposed(by: self.disposeBag)
     }
 
     private func getData() {
@@ -37,16 +45,6 @@ class MainViewModel: MainViewModelProtocol {
             let errorMsg = self.getErrorMsg(error: error)
             self.showError.onNext(errorMsg)
             self.isHiddenActivityIndicator.value = true
-        })
-    }
-
-    private func getErrorMsg(error: Error) -> String {
-        var message = ""
-        if let apiError = error as? APIError {
-            message = apiError.localizedDescription
-        } else {
-            message = error.localizedDescription
-        }
-        return message
+        }).disposed(by: self.disposeBag)
     }
 }

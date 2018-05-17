@@ -5,17 +5,14 @@
 
 import Foundation
 
-class Speciality {
+class Doctor {
     var id = 0
     var name = ""
-    var alias = ""
-
+    var description = ""
 
     func jsonToObject(json: NSDictionary) {
-        if let idStr = json["Id"] as? NSString {
-            self.id = idStr.integerValue
-        }
+        self.id = json["Id"] as? Int ?? 0
         self.name = json["Name"] as? String ?? ""
-        self.alias = json["Alias"] as? String ?? ""
+        self.description = json["Description"] as? String ?? ""
     }
 }

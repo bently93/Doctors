@@ -45,7 +45,15 @@ class MainViewController: UIViewController {
                 .bind(to: tableView.rx.items(cellIdentifier: "cell")) {
                     (row: Int, speciality: Speciality, cell: UITableViewCell) in
                     cell.textLabel?.text = speciality.name
-                }.disposed(by: disposeBag)
+                }
+                .disposed(by: disposeBag)
+
+        self.tableView.rx.modelSelected(Speciality.self)
+                .subscribe(onNext: {
+                    (speciality: Speciality) in
+                    self.performSegue(withIdentifier: "showDoctors", sender: speciality)
+                })
+                .disposed(by: self.disposeBag)
     }
 
 
@@ -56,9 +64,29 @@ class MainViewController: UIViewController {
 
     func showErrorMsg(message: String) {
         let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default) {
+            action in
+            self.viewModel?.reloadData.onNext(())
+        }
+
         alertController.addAction(defaultAction)
         self.present(alertController, animated: true, completion: nil)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "showDoctors":
+                if let vc = segue.destination as? DoctorsViewController,
+                   let spec = sender as? Speciality {
+                    vc.viewModel = DoctorsViewModel(speciality: spec)
+                }
+                break
+            default:
+                break
+            }
+        }
+
+    }
 }
