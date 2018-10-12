@@ -6,6 +6,51 @@
 import Foundation
 import RxSwift
 import Alamofire
+import Moya
+
+enum ServerAPI {
+    case speciality
+    case doctors(startPage: Int, count: Int, specId: Int)
+}
+
+extension ServerAPI: TargetType {
+    
+    var baseURL: URL {
+        return URL(string: "https://api.docdoc.ru/public/rest/1.0.9")!
+    }
+    
+    var path: String {
+        switch self {
+        case .speciality:
+            return "/speciality/top/deti/0/count/10/cityId/1"
+        case .doctors(let startPage, let count, let specId):
+            return "/doctor/list/start/\(startPage)/count/\(count)/city/1/speciality/\(specId)/type/landing/stations/111/near/extra/order/price/deti/0/na_dom/0"
+        }
+    }
+    
+    var method: Moya.Method {
+        switch self {
+        default:
+            return .get
+        }
+    }
+    
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        default:
+            return .requestPlain
+        }
+    }
+    
+    var headers: [String: String]? {
+        return nil
+    }
+}
+
 
 protocol RestApiProtocol {
     func getSpeciality() -> Observable<Array<Speciality>>
@@ -13,107 +58,68 @@ protocol RestApiProtocol {
 }
 
 class RestApi: RestApiProtocol {
-    private let baseUrl = "https://api.docdoc.ru/public/rest/1.0.9"
-    private let apiSpeciality: String
-
+    private let provider: MoyaProvider<ServerAPI>
+    
     init() {
-        apiSpeciality = "\(baseUrl)/speciality/top/deti/0/count/10/cityId/1"
+        let credentialsPlugin = CredentialsPlugin { _ -> URLCredential? in
+             return URLCredential(user: "partner.13703", password: "ZZdFmtJD", persistence: .none)
+        }
+        self.provider = MoyaProvider<ServerAPI>(plugins: [credentialsPlugin])
     }
-
-    private func getApiDoctorsWithParam(startPage: Int, count: Int, specId: Int) -> String {
-        return "\(baseUrl)/doctor/list/start/\(startPage)/count/\(count)/city/1/speciality/\(specId)/type/landing/stations/111/near/extra/order/price/deti/0/na_dom/0"
-    }
-
+    
+   
+    
     func getSpeciality() -> Observable<Array<Speciality>> {
-        return Observable.create { observer in
-            Alamofire.request(self.apiSpeciality, method: .get)
-                    .authenticate(user: "partner.13703", password: "ZZdFmtJD")
-                    .validate()
-                    .responseJSON() {
-                        response in
-                        switch response.result {
-                        case .success:
-                            if let json = response.result.value as? NSDictionary,
-                               let jsonArray = json["SpecList"] as? NSArray {
-                                var array = Array<Speciality>()
-                                jsonArray.forEach {
-                                    v in
-                                    if let jsonSpec = v as? NSDictionary {
-                                        let spec: Speciality = Speciality()
-                                        spec.jsonToObject(json: jsonSpec)
-                                        array.append(spec)
-                                    }
-                                }
-
-                                observer.onNext(array)
-                            } else {
-                                observer.onError(APIError.badRequest)
-                            }
-                            return
-                        case .failure:
-                            let error = self.errorMessageForStatusCode(response: response)
-                            observer.onError(error)
-                        }
-                    }
-            return Disposables.create()
-        }
+        return providerRequest(target: .speciality, keyPath: "SpecList")
     }
-
+    
     func getDoctors(startPage: Int, count: Int, specId: Int) -> Observable<Array<Doctor>> {
-        let api = getApiDoctorsWithParam(startPage: startPage, count: count, specId: specId)
-
+        return providerRequest(target: .doctors(startPage: startPage, count: count, specId: specId), keyPath: "DoctorList")
+    }
+    
+    
+    private func providerRequest<Type: Decodable>(target: ServerAPI, keyPath: String? = nil) -> Observable<Type> {
         return Observable.create { observer in
-            Alamofire.request(api, method: .get)
-                    .authenticate(user: "partner.13703", password: "ZZdFmtJD")
-                    .validate()
-                    .responseJSON() {
-                        response in
-                        switch response.result {
-                        case .success:
-                            if let json = response.result.value as? NSDictionary,
-                               let jsonArray = json["DoctorList"] as? NSArray {
-                                var array = Array<Doctor>()
-                                jsonArray.forEach {
-                                    v in
-                                    if let jsonDoc = v as? NSDictionary {
-                                        let doctor = Doctor()
-                                        doctor.jsonToObject(json: jsonDoc)
-                                        doctor.specId = specId
-                                        array.append(doctor)
-                                    }
-                                 }
-
-                                observer.onNext(array)
-                            } else {
-                                observer.onError(APIError.badRequest)
-                            }
-                            return
-                        case .failure:
-                            let error = self.errorMessageForStatusCode(response: response)
-                            observer.onError(error)
-                        }
+            self.provider.request(target) {
+                result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
+                        let classes = try response.map(Type.self, atKeyPath: keyPath, using: decoder, failsOnEmptyData: false)
+                        observer.onNext(classes)
+                    } catch let error {
+                        print("\(error.localizedDescription)")
+                        observer.onError(APIError.badRequest)
                     }
+                case .failure(let error):
+                    let error = self.errorMessageForStatusCode(error: error)
+                    observer.onError(error)
+                }
+            }
             return Disposables.create()
         }
     }
-
-    private func errorMessageForStatusCode(response: DataResponse<Any>) -> Error {
-        let error: Error
-        if let httpStatusCode = response.response?.statusCode {
+   
+    //handling error status code
+    private func errorMessageForStatusCode(error: MoyaError) -> APIError {
+        let apiError: APIError
+        if let httpStatusCode = error.response?.statusCode {
             switch (httpStatusCode) {
             case 400:
-                error = APIError.badRequest
-            case 404:
-                error = APIError.notFound
+                apiError = .badRequest
+            case 401, 404, 501:
+                apiError = .notFound
             case 500:
-                error = APIError.serverError
+                apiError = .serverError
             default:
-                error = response.error ?? APIError.serverError
+                apiError = .noInternetConnection
             }
         } else {
-            error = response.error ?? APIError.serverError
+            apiError = .noInternetConnection
         }
-        return error
+        return apiError
     }
 }
 
@@ -121,7 +127,8 @@ enum APIError: Error {
     case badRequest
     case notFound
     case serverError
-
+    case noInternetConnection
+    
     var localizedDescription: String {
         switch self {
         case .badRequest:
@@ -130,7 +137,7 @@ enum APIError: Error {
             return "Запрошенный ресурс не найден."
         case .serverError:
             return "Ошибка сервера"
-        default:
+        case .noInternetConnection:
             return "Вероятно, соединение с Интернетом прервано."
         }
     }

@@ -6,6 +6,8 @@ target 'Doctors' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'Moya'
+
   pod 'RxSwift'
   pod 'RxCocoa'
 

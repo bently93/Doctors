@@ -6,16 +6,30 @@
 import Foundation
 import RealmSwift
 
-class Speciality: Object {
+class Speciality: Object, Decodable {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
     @objc dynamic var alias = ""
+    
+    convenience init(id: Int, name: String, alias: String){
+        self.init()
+        self.id = id
+        self.name = name
+        self.alias = alias
+    }
 
-    func jsonToObject(json: NSDictionary) {
-        if let idStr = json["Id"] as? NSString {
-            self.id = idStr.integerValue
-        }
-        self.name = json["Name"] as? String ?? ""
-        self.alias = json["Alias"] as? String ?? ""
+    enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+        case alias = "Alias"
+    }
+
+    required convenience init(from decoder: Decoder) throws{
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id = try container.decode(String.self, forKey: .id)
+        let name = try container.decode(String.self, forKey: .name)
+        let alias = try container.decode(String.self, forKey: .alias)
+        
+        self.init(id: Int(id) ?? 0, name: name, alias: alias)
     }
 }

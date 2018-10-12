@@ -69,6 +69,9 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
         restApi.getDoctors(startPage: startPage, count: count, specId: self.speciality.id)
                 .subscribe(onNext: {
                     array in
+                    array.forEach({ doctor in
+                        doctor.specId = self.speciality.id
+                    })
                     self.isHiddenEmptyDoctors.value = !array.isEmpty
                     self.isHiddenTableView.value = array.isEmpty
 

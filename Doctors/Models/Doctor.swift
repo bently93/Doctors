@@ -6,15 +6,23 @@
 import Foundation
 import RealmSwift
 
-class Doctor: Object {
+class Doctor: Object, Decodable {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
     @objc dynamic var descriptionInfo = ""
     @objc dynamic var specId = 0
 
-    func jsonToObject(json: NSDictionary) {
-        self.id = json["Id"] as? Int ?? 0
-        self.name = json["Name"] as? String ?? ""
-        self.descriptionInfo = json["Description"] as? String ?? ""
+    enum CodingKeys: String, CodingKey {
+        case id = "Id"
+        case name = "Name"
+        case description = "Description"
+    }
+    
+    required convenience init(from decoder: Decoder) throws{
+        self.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.descriptionInfo = try container.decode(String.self, forKey: .description)
     }
 }
