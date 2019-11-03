@@ -1,2 +1,47 @@
+.idea/*
+.idea/CryptoNews.iml/
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Build generated
+build/
+DerivedData/
+output/
+
 Pods/*
-Doctors.xcworkspace/*
+
+## Various settings
+xcuserdata/
+*.xcworkspace/
+
+*.DS_Store
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.cer
+*.mobileprovision
+*.objects.filelist
+
+Templates/mvvm_controller/
+Templates/rviper_controller/
+Templates/swift_service/
+Templates/swifty_viper/
+CommonProject/Generated/Strings.swift
+
+# Generated
+CryptoNews/Generated/*.swift
