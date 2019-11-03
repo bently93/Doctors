@@ -28,9 +28,7 @@ class DoctorsViewController: UIViewController {
         guard let speciality = self.speciality else {
             return assertionFailure()
         }
-        let service = DoctorsService(doctorsDBRepo: DoctorsDBRepository(realmConfig: Realm.Configuration.defaultConfiguration), restApi: RestApi())
-        viewModel = DoctorsViewModel(speciality: speciality, doctorsService: service)
-
+        DoctorsViewAssembly.instance().inject(into: self, speciality: speciality)
 
         self.setupBindings()
         self.setupTableView()

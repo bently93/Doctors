@@ -12,7 +12,8 @@ target 'Doctors' do
   pod 'RxCocoa'
 
   pod 'RealmSwift', '~> 3.20.0'
-  # Pods for Doctors
+
+  pod 'EasyDi'
 
   target 'DoctorsTests' do
     inherit! :search_paths

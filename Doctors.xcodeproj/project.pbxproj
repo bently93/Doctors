@@ -21,6 +21,7 @@
 		18D5F7A720AD6E420091B4EC /* DoctorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */; };
 		18D5F7AA20AD9BE90091B4EC /* DoctorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */; };
 		52B459E031596F6098447F32 /* Pods_Doctors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96D06A5514D97A825D5E739 /* Pods_Doctors.framework */; };
+		617EC33D8367722B3AB2149A /* RepoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC50826F69DE4125E0C88 /* RepoAssembly.swift */; };
 		617EC4047B52CA29A37DC5FA /* Speciality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC575525E237F1CFE5454 /* Speciality.swift */; };
 		617EC448B2AA06633ADE69C8 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC790D10F0A5EABC06CAD /* RestApi.swift */; };
 		617EC4837982E47E244885C2 /* Doctor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECF5AFAC21B6E941B030E /* Doctor+Persistable.swift */; };
@@ -29,8 +30,12 @@
 		617EC53B0BE1491D66457A98 /* DoctorsDBRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECF4458223F92FC516228 /* DoctorsDBRepository.swift */; };
 		617EC57550DDB54C8BA577DE /* Speciality+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC684715EBB871D0FF0EA /* Speciality+Persistable.swift */; };
 		617EC6924A5838A8DDD0892F /* DoctorObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECAB9E56378E3DD390E71 /* DoctorObject.swift */; };
+		617EC6C12AAB346B0F4606DA /* ServicesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECEBC9F96E55A64866AF6 /* ServicesAssembly.swift */; };
 		617EC7CEB9646B2DC9160234 /* MoyaProvider+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC48C220C937E93B4A3DC /* MoyaProvider+Decodable.swift */; };
+		617EC86C8833EF3061FE4870 /* RestApiAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC59A2F0231B55C97F883 /* RestApiAssembly.swift */; };
+		617ECA40EAE88944DC94C67F /* DoctorsViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECF18CE747CE6ABCC4500 /* DoctorsViewAssembly.swift */; };
 		617ECA7A450F93CF3A695B95 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECF88919CD2EC7C2FD823 /* Persistable.swift */; };
+		617ECB68FFC39DFDE032EB10 /* MainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC0060FAB1F6D4DAF1D57 /* MainViewAssembly.swift */; };
 		617ECBF72669EC3879AF2AFC /* Results+ToArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC35587B0F49DA159C565 /* Results+ToArray.swift */; };
 		617ECDBBB4518A4D226AFAD5 /* ServerApiTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617ECD825D43C95F975C8569 /* ServerApiTarget.swift */; };
 		617ECF76A04FF949B20EC148 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617EC9BEE09B4B1B1E1DE971 /* APIError.swift */; };
@@ -76,9 +81,12 @@
 		18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsViewController.swift; sourceTree = "<group>"; };
 		18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsTableViewCell.swift; sourceTree = "<group>"; };
 		4E4AF0E4F31CD69E1BF00EED /* Pods-DoctorsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoctorsTests/Pods-DoctorsTests.release.xcconfig"; sourceTree = "<group>"; };
+		617EC0060FAB1F6D4DAF1D57 /* MainViewAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewAssembly.swift; sourceTree = "<group>"; };
 		617EC35587B0F49DA159C565 /* Results+ToArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Results+ToArray.swift"; sourceTree = "<group>"; };
 		617EC48C220C937E93B4A3DC /* MoyaProvider+Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MoyaProvider+Decodable.swift"; sourceTree = "<group>"; };
+		617EC50826F69DE4125E0C88 /* RepoAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoAssembly.swift; sourceTree = "<group>"; };
 		617EC575525E237F1CFE5454 /* Speciality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Speciality.swift; sourceTree = "<group>"; };
+		617EC59A2F0231B55C97F883 /* RestApiAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiAssembly.swift; sourceTree = "<group>"; };
 		617EC684715EBB871D0FF0EA /* Speciality+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Speciality+Persistable.swift"; sourceTree = "<group>"; };
 		617EC790D10F0A5EABC06CAD /* RestApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
 		617EC84D4E4D6749224493D7 /* Doctor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
@@ -87,6 +95,8 @@
 		617ECAB9E56378E3DD390E71 /* DoctorObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorObject.swift; sourceTree = "<group>"; };
 		617ECC6CFD6E013370DEAA49 /* DoctorsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsService.swift; sourceTree = "<group>"; };
 		617ECD825D43C95F975C8569 /* ServerApiTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerApiTarget.swift; sourceTree = "<group>"; };
+		617ECEBC9F96E55A64866AF6 /* ServicesAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesAssembly.swift; sourceTree = "<group>"; };
+		617ECF18CE747CE6ABCC4500 /* DoctorsViewAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsViewAssembly.swift; sourceTree = "<group>"; };
 		617ECF4458223F92FC516228 /* DoctorsDBRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoctorsDBRepository.swift; sourceTree = "<group>"; };
 		617ECF5AFAC21B6E941B030E /* Doctor+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Doctor+Persistable.swift"; sourceTree = "<group>"; };
 		617ECF88919CD2EC7C2FD823 /* Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
@@ -203,6 +213,7 @@
 			children = (
 				18D5F77220AD57350091B4EC /* MainViewController.swift */,
 				115D39FA7B9D5A626CE67BA5 /* MainViewModel.swift */,
+				617EC0060FAB1F6D4DAF1D57 /* MainViewAssembly.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -213,6 +224,7 @@
 				18D5F7A620AD6E420091B4EC /* DoctorsViewController.swift */,
 				115D3E1770CDC193159D1CED /* DoctorsViewModel.swift */,
 				18D5F7A920AD9BE90091B4EC /* DoctorsTableViewCell.swift */,
+				617ECF18CE747CE6ABCC4500 /* DoctorsViewAssembly.swift */,
 			);
 			path = Doctors;
 			sourceTree = "<group>";
@@ -288,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				617ECF4458223F92FC516228 /* DoctorsDBRepository.swift */,
+				617EC50826F69DE4125E0C88 /* RepoAssembly.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -330,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				617ECC6CFD6E013370DEAA49 /* DoctorsService.swift */,
+				617ECEBC9F96E55A64866AF6 /* ServicesAssembly.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -339,6 +353,7 @@
 			children = (
 				617EC790D10F0A5EABC06CAD /* RestApi.swift */,
 				617ECD825D43C95F975C8569 /* ServerApiTarget.swift */,
+				617EC59A2F0231B55C97F883 /* RestApiAssembly.swift */,
 			);
 			path = RestApi;
 			sourceTree = "<group>";
@@ -559,6 +574,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Doctors/Pods-Doctors-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/EasyDi/EasyDi.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -569,6 +585,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyDi.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -609,6 +626,11 @@
 				617EC6924A5838A8DDD0892F /* DoctorObject.swift in Sources */,
 				617EC4837982E47E244885C2 /* Doctor+Persistable.swift in Sources */,
 				617EC4FE7A8F853F7B644BDD /* Doctor.swift in Sources */,
+				617EC33D8367722B3AB2149A /* RepoAssembly.swift in Sources */,
+				617EC6C12AAB346B0F4606DA /* ServicesAssembly.swift in Sources */,
+				617EC86C8833EF3061FE4870 /* RestApiAssembly.swift in Sources */,
+				617ECB68FFC39DFDE032EB10 /* MainViewAssembly.swift in Sources */,
+				617ECA40EAE88944DC94C67F /* DoctorsViewAssembly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

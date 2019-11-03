@@ -15,15 +15,15 @@ class MainViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private var viewModel: MainViewModelProtocol?
+    var viewModel: MainViewModelProtocol?
+
     private let disposeBag = DisposeBag()
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let service = DoctorsService(doctorsDBRepo: DoctorsDBRepository(realmConfig: Realm.Configuration.defaultConfiguration), restApi: RestApi())
-        self.viewModel = MainViewModel(doctorsService: service)
+        MainViewAssembly.instance().inject(into: self)
 
         self.setupBindings()
         self.setupTableView()
