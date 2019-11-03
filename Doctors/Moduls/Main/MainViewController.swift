@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class MainViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -21,7 +22,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewModel = MainViewModel()
+        let service = DoctorsService(doctorsDBRepo: DoctorsDBRepository(realmConfig: Realm.Configuration.defaultConfiguration), restApi: RestApi())
+        self.viewModel = MainViewModel(doctorsService: service)
 
         self.setupBindings()
         self.setupTableView()
@@ -37,15 +39,16 @@ class MainViewController: UIViewController {
         self.viewModel?.isHiddenActivityIndicator.asObservable()
                 .bind(to: self.activityIndicator.rx.isHidden)
                 .disposed(by: self.disposeBag)
+
         self.viewModel?.isHiddenTableView.asObservable()
-        .bind(to: self.tableView.rx.isHidden )
-        .disposed(by: self.disposeBag)
+                .bind(to: self.tableView.rx.isHidden)
+                .disposed(by: self.disposeBag)
 
         self.viewModel?.showError
-                .subscribe(onNext: {
-                    s in
+                .subscribe(onNext: { [unowned self] s in
                     self.showErrorMsg(message: s)
-                }).disposed(by: self.disposeBag)
+                })
+                .disposed(by: self.disposeBag)
 
         self.viewModel?.isRefreshing.asObservable()
                 .bind(to: self.refreshControl.rx.isRefreshing)
@@ -59,14 +62,13 @@ class MainViewController: UIViewController {
     private func setupTableView() {
         self.viewModel?.specialityArray.asObservable()
                 .bind(to: tableView.rx.items(cellIdentifier: "cell")) {
-                    (row: Int, speciality: Speciality, cell: UITableViewCell) in
+                    row, speciality, cell in
                     cell.textLabel?.text = speciality.name
                 }
                 .disposed(by: self.disposeBag)
 
         self.tableView.rx.modelSelected(Speciality.self)
-                .subscribe(onNext: {
-                    (speciality: Speciality) in
+                .subscribe(onNext: { [unowned self] speciality in
                     self.performSegue(withIdentifier: "showDoctors", sender: speciality)
                 })
                 .disposed(by: self.disposeBag)
@@ -80,8 +82,7 @@ class MainViewController: UIViewController {
 
     func showErrorMsg(message: String) {
         let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default) {
-            action in
+        let defaultAction = UIAlertAction(title: "Ok", style: .default) { action in
             self.viewModel?.reloadData.onNext(())
         }
 
@@ -96,7 +97,7 @@ class MainViewController: UIViewController {
             case "showDoctors":
                 if let vc = segue.destination as? DoctorsViewController,
                    let spec = sender as? Speciality {
-                    vc.viewModel = DoctorsViewModel(speciality: spec)
+                    vc.speciality = spec
                 }
                 break
             default:

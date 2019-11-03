@@ -20,7 +20,7 @@ protocol MainViewModelProtocol {
 
 }
 
-class MainViewModel: BaseViewModel, MainViewModelProtocol  {
+class MainViewModel: BaseViewModel, MainViewModelProtocol {
     private(set) var specialityArray: Variable<Array<Speciality>> = Variable(Array<Speciality>())
     private(set) var isHiddenActivityIndicator: Variable<Bool> = Variable(false)
     private(set) var isHiddenTableView: Variable<Bool> = Variable(true)
@@ -30,67 +30,60 @@ class MainViewModel: BaseViewModel, MainViewModelProtocol  {
     private(set) var reloadData: PublishSubject<Void> = PublishSubject()
     private(set) var startRefreshing: PublishSubject<Void> = PublishSubject()
 
-    private let restApi: RestApiProtocol
-    private let realm: Realm = try! Realm()
+    private let doctorsService: DoctorsServiceProtocol
 
-    init(restApi: RestApiProtocol = RestApi()) {
-        self.restApi = restApi
+    init(doctorsService: DoctorsServiceProtocol) {
+        self.doctorsService = doctorsService
 
         super.init()
 
         self.updateData()
-
-        self.reloadData.subscribe { void in
-            self.getDataFromServer()
-        }.disposed(by: self.disposeBag)
-
-        self.startRefreshing.subscribe {
-            void in
-            self.getDataFromServer()
-            self.isRefreshing.value = true
-         }
+        self.setupBindings()
     }
 
-    private func updateData(){
-        let allSpec = getAllSpecialityDB()
+
+}
+
+// MARK: - Private functions
+extension MainViewModel {
+    private func setupBindings() {
+        self.reloadData.subscribe { [unowned self] in
+                    self.getDataFromServer()
+                }
+                .disposed(by: self.disposeBag)
+
+        self.startRefreshing.subscribe { [unowned self] in
+                    self.getDataFromServer()
+                    self.isRefreshing.value = true
+                }
+                .disposed(by: self.disposeBag)
+    }
+
+    private func updateData() {
+        let allSpec = self.doctorsService.getSpecialitiesFromCache()
         if allSpec.isEmpty {
             self.getDataFromServer()
         } else {
-            self.specialityArray.value = allSpec.toArray(ofType: Speciality.self)
+            self.specialityArray.value = allSpec
             self.isHiddenActivityIndicator.value = true
             self.isHiddenTableView.value = false
         }
     }
 
     private func getDataFromServer() {
-        restApi.getSpeciality().subscribe(onNext: {
-            array in
-            self.specialityArray.value = array
-            self.isHiddenActivityIndicator.value = true
-            self.isHiddenTableView.value = false
-            self.isRefreshing.value = false
-            self.saveSpecialityDB(array: array)
-        }, onError: {
-            error in
-            let errorMsg = self.getErrorMsg(error: error)
-            self.showError.onNext(errorMsg)
-            self.isHiddenActivityIndicator.value = true
-            self.isRefreshing.value = false
-        }).disposed(by: self.disposeBag)
-    }
-
-    private func saveSpecialityDB(array: Array<Speciality>) {
-        do {
-            try realm.write {
-                let all = getAllSpecialityDB()
-                realm.delete(all)
-                realm.add(array)
-            }
-        } catch {
-        }
-    }
-
-    private func getAllSpecialityDB()->Results<Speciality>{
-        return realm.objects(Speciality.self)
+        doctorsService.getSpeciality()
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [unowned self] array in
+                    self.specialityArray.value = array
+                    self.isHiddenActivityIndicator.value = true
+                    self.isHiddenTableView.value = false
+                    self.isRefreshing.value = false
+                }, onError: { [unowned self] error in
+                    let errorMsg = self.getErrorMsg(error: error)
+                    self.showError.onNext(errorMsg)
+                    self.isHiddenActivityIndicator.value = true
+                    self.isRefreshing.value = false
+                })
+                .disposed(by: self.disposeBag)
     }
 }

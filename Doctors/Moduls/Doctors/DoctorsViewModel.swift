@@ -20,7 +20,7 @@ protocol DoctorsViewModelProtocol {
     var startRefreshing: PublishSubject<Void> { get }
 }
 
-class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
+class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol {
     private(set) var doctors: Variable<Array<Doctor>> = Variable(Array<Doctor>())
     private(set) var isHiddenTableView: Variable<Bool> = Variable(true)
     private(set) var isHiddenActivityIndicator: Variable<Bool> = Variable(false)
@@ -31,56 +31,55 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
     private(set) var reloadData: PublishSubject<Void> = PublishSubject()
     private(set) var startRefreshing: PublishSubject<Void> = PublishSubject()
 
-    private let restApi: RestApiProtocol
     private let speciality: Speciality
-    private let realm = try! Realm()
+    private let doctorsService: DoctorsServiceProtocol
 
-    init(speciality: Speciality, restApi: RestApiProtocol = RestApi()) {
-        self.restApi = restApi
+    init(speciality: Speciality, doctorsService: DoctorsServiceProtocol) {
         self.speciality = speciality
+        self.doctorsService = doctorsService
 
         super.init()
 
         self.updateData()
+        self.setupBindings()
+    }
 
-        self.reloadData.subscribe { void in
-            self.getDataFromServer(startPage: 0)
-        }.disposed(by: self.disposeBag)
+    private func setupBindings() {
+        self.reloadData.subscribe { [unowned self] in
+                    self.getDataFromServer()
+                }
+                .disposed(by: self.disposeBag)
 
-        self.startRefreshing.subscribe {
-            void in
-            self.getDataFromServer(startPage: 0)
-            self.isRefreshing.value = true
-        }
+        self.startRefreshing.subscribe { [unowned self] in
+                    self.getDataFromServer()
+                    self.isRefreshing.value = true
+                }
+                .disposed(by: self.disposeBag)
+
     }
 
     private func updateData() {
-        let allDoctor = getAllDoctorDB(specId: self.speciality.id)
+        let allDoctor = self.doctorsService.getDoctorsFromCache(specId: self.speciality.id)
         if allDoctor.isEmpty {
             getDataFromServer()
         } else {
-            self.doctors.value = allDoctor.toArray(ofType: Doctor.self)
+            self.doctors.value = allDoctor
             self.isHiddenActivityIndicator.value = true
             self.isHiddenTableView.value = false
         }
     }
-    
-    private func getDataFromServer(startPage: Int = 0, count: Int = 0) {
-        restApi.getDoctors(startPage: startPage, count: count, specId: self.speciality.id)
-                .subscribe(onNext: {
-                    array in
-                    array.forEach({ doctor in
-                        doctor.specId = self.speciality.id
-                    })
+
+    private func getDataFromServer() {
+        self.doctorsService.getDoctors(specId: self.speciality.id)
+                .observeOn(MainScheduler.instance)
+                .subscribe(onSuccess: { [unowned self] array in
                     self.isHiddenEmptyDoctors.value = !array.isEmpty
                     self.isHiddenTableView.value = array.isEmpty
 
                     self.doctors.value = array
                     self.isHiddenActivityIndicator.value = true
                     self.isRefreshing.value = false
-                    self.saveDoctors(array: array)
-                }, onError: {
-                    (error: Error) in
+                }, onError: { [unowned self] error in
                     let errorMsg = self.getErrorMsg(error: error)
                     self.showError.onNext(errorMsg)
                     self.isHiddenActivityIndicator.value = true
@@ -88,21 +87,4 @@ class DoctorsViewModel: BaseViewModel, DoctorsViewModelProtocol  {
                 })
                 .disposed(by: self.disposeBag)
     }
-
-    private func saveDoctors(array: Array<Doctor>){
-        do{
-            try realm.write {
-                let all = getAllDoctorDB(specId: self.speciality.id)
-                realm.delete(all)
-                realm.add(array)
-            }
-        }
-        catch{
-        }
-    }
-
-    private func getAllDoctorDB(specId: Int)->Results<Doctor>{
-        return realm.objects(Doctor.self).filter("specId=%@", specId)
-    }
-
 }

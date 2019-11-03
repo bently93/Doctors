@@ -11,7 +11,7 @@ target 'Doctors' do
   pod 'RxSwift'
   pod 'RxCocoa'
 
-  pod 'RealmSwift'
+  pod 'RealmSwift', '~> 3.20.0'
   # Pods for Doctors
 
   target 'DoctorsTests' do

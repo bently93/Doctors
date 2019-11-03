@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class DoctorsViewController: UIViewController {
 
@@ -17,11 +18,19 @@ class DoctorsViewController: UIViewController {
     @IBOutlet weak var emptyDoctorsView: UIView!
 
     var viewModel: DoctorsViewModelProtocol?
+    var speciality: Speciality?
+
     private let disposeBag = DisposeBag()
     private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let speciality = self.speciality else {
+            return assertionFailure()
+        }
+        let service = DoctorsService(doctorsDBRepo: DoctorsDBRepository(realmConfig: Realm.Configuration.defaultConfiguration), restApi: RestApi())
+        viewModel = DoctorsViewModel(speciality: speciality, doctorsService: service)
+
 
         self.setupBindings()
         self.setupTableView()
@@ -55,15 +64,16 @@ class DoctorsViewController: UIViewController {
                 .bind(to: self.viewModel?.startRefreshing ?? PublishSubject())
                 .disposed(by: disposeBag)
 
-        self.viewModel?.showError.subscribe(onNext: {
-            errorMsg in
-            self.showErrorMsg(message: errorMsg)
-        })
+        self.viewModel?.showError
+                .subscribe(onNext: { [unowned self] errorMsg in
+                    self.showErrorMsg(message: errorMsg)
+                })
+                .disposed(by: disposeBag)
     }
 
     private func setupTableView() {
         self.viewModel?.doctors.asObservable()
-                .bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: DoctorsTableViewCell.self )) {
+                .bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: DoctorsTableViewCell.self)) {
                     (row: Int, doctor: Doctor, cell: DoctorsTableViewCell) in
                     cell.nameLabel.text = doctor.name
                     cell.decriptionLabel.text = doctor.descriptionInfo
